@@ -1,0 +1,29 @@
+flowchart TD
+    U[User Request\nquery + limits + sources] --> CLI[Typer CLI]
+    U --> API[FastAPI API]
+
+    CLI --> WM[Workflow Manager]
+    API --> WM
+
+    WM --> SC[Source Collector Agent]
+    SC --> SA[Source Adapters\nAPI/feed first, scrape fallback]
+
+    SA --> RL[Raw Listings]
+    RL --> LE[Listing Extraction Agent]
+    LE --> NI[Normalized Items]
+
+    NI --> CR[Comp Research Agent]
+    CR --> RA[Resale Adapters]
+    RA --> CS[Comparable Sales]
+
+    NI --> MA[Margin Analyst Agent]
+    CS --> MA
+    MA --> ME[Margin Estimates]
+
+    NI --> RR[Reviewer / Ranker]
+    ME --> RR
+    CS --> RR
+    RR --> OUT[Ranked opportunities\nordered by conservative margin]
+
+    OUT --> CLI_OUT[Rich CLI table]
+    OUT --> API_OUT[JSON API response]

@@ -1,0 +1,28 @@
+sequenceDiagram
+    autonumber
+    actor User
+    participant CLI as CLI / API
+    participant Manager as Workflow Manager
+    participant Collector as Source Collector
+    participant Extractor as Listing Extractor
+    participant Comp as Comp Researcher
+    participant Margin as Margin Analyst
+    participant Ranker as Reviewer / Ranker
+
+    User->>CLI: Submit query\n"vintage lamp"
+    CLI->>Manager: Start opportunity search
+    Manager->>Collector: Gather second-hand listings
+    Collector-->>Manager: Candidate listings
+    Manager->>Extractor: Normalize each listing
+    Extractor-->>Manager: Structured item records
+    Manager->>Comp: Find resale comparables
+    Comp-->>Manager: Comparable sold/listed prices
+    Manager->>Margin: Estimate conservative margin
+    Margin-->>Manager: Profit, margin %, confidence
+    Manager->>Ranker: Reject weak items and sort the rest
+    Ranker-->>Manager: Ranked opportunities
+    Manager-->>CLI: Final response
+    CLI-->>User: Table or JSON output
+
+    Note over User,CLI: Demo entrypoints: `uv run second-hand-agents ...` or `POST /opportunities/search`
+    Note over Manager,Ranker: In demo mode, the workflow is deterministic and stable for presentation

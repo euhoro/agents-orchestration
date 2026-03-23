@@ -1,0 +1,30 @@
+flowchart TD
+    A[Second-Hand Agents Demo] --> B[What It Does]
+    A --> C[How To Use It]
+    A --> D[What The Audience Should Notice]
+
+    B --> B1[Accepts a sourcing query\nExample: vintage lamp]
+    B --> B2[Collects curated second-hand listings]
+    B --> B3[Normalizes titles, condition,\ncategory, and cost]
+    B --> B4[Researches resale comparables]
+    B --> B5[Calculates conservative margin]
+    B --> B6[Ranks opportunities by margin]
+
+    C --> C1[Install dependencies\nuv sync]
+    C --> C2[Run the CLI\nuv run second-hand-agents find-opportunities --query vintage-lamp --top 5]
+    C --> C3[Run the API\nuv run uvicorn second_hand_agents.api.app:app --reload]
+    C --> C4[Call the API\nPOST /opportunities/search]
+    C --> C5[Review outputs\nRich table or JSON response]
+
+    D --> D1[Manager-led multi-agent design]
+    D --> D2[Each agent owns one stage]
+    D --> D3[Deterministic demo mode\nkeeps the output stable]
+    D --> D4[Pydantic models make every stage inspectable]
+    D --> D5[Easy path to swap demo adapters\nfor real marketplace integrations]
+
+    B6 --> E[Final Output]
+    C5 --> E
+    E --> E1[Top opportunities with buy price]
+    E --> E2[Estimated resale value]
+    E --> E3[Estimated profit and margin percent]
+    E --> E4[Confidence and supporting comps]
